@@ -1,0 +1,21 @@
+<h1>Contact Us</h1>
+
+<% if params[:name].present? %>
+  Hi, <%= params[:name] %>! Thank you for contacting us! We will get back to you shortly.
+<% end %>
+
+<%= form_tag contact_submit_path do %>
+  <div>
+    <%= label_tag :name %>
+    <%= text_field_tag :name %>
+  </div>
+  <div>
+    <%= label_tag :email %>
+    <%= email_field_tag :email %>
+  </div>
+  <div>
+    <%= label_tag :message %>
+    <%= text_area_tag :message %>
+  </div>
+  <%= submit_tag 'Contact Us' %>
+<% end %>
