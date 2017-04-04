@@ -1,6 +1,7 @@
 <h1><%= @product.title %></h1>
 <p><%= @product.description %></p>
 <p><%= @product.price %></p>
+<p><%= @product.user.first_name %></p>
 
 
 <%= link_to 'Edit', edit_product_path(@product) %>
@@ -32,6 +33,7 @@
       <% @product.reviews.each do |r| %>
       <div class="well">
        <p>Rating: <%= r.rating %></p>
+       <p><%= review.usser.first_name %></p>
        <p>Comments: <%= r.body %></p>
        <%= link_to 'Delete Answer', [@product, r],
               method: :delete, data: { confirm: 'Are you sure?' } %>
