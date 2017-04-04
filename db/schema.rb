@@ -44,9 +44,9 @@ ActiveRecord::Schema.define(version: 20170404225834) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "product_id"
-    t.integer  "reviews_id"
+    t.integer  "user_id"
     t.index ["product_id"], name: "index_reviews_on_product_id", using: :btree
-    t.index ["reviews_id"], name: "index_reviews_on_reviews_id", using: :btree
+    t.index ["user_id"], name: "index_reviews_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -62,5 +62,5 @@ ActiveRecord::Schema.define(version: 20170404225834) do
   add_foreign_key "products", "categories"
   add_foreign_key "products", "users"
   add_foreign_key "reviews", "products"
-  add_foreign_key "reviews", "reviews", column: "reviews_id"
+  add_foreign_key "reviews", "users"
 end

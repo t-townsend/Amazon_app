@@ -33,7 +33,7 @@
       <% @product.reviews.each do |r| %>
       <div class="well">
        <p>Rating: <%= r.rating %></p>
-       <p><%= review.usser.first_name %></p>
+       <p><%= r.user.first_name %></p>
        <p>Comments: <%= r.body %></p>
        <%= link_to 'Delete Answer', [@product, r],
               method: :delete, data: { confirm: 'Are you sure?' } %>
