@@ -1,4 +1,8 @@
 class Product < ApplicationRecord
+  belongs_to :category
+
+  has_many :reviews
+  
   validates(:title, { presence: true,
                       uniqueness: { case_sensitive: false },
                       exclusion: { in: %w(Apple Microsoft Sony),
@@ -28,10 +32,37 @@ class Product < ApplicationRecord
   def set_defaults
     self.price ||= 1
   end
-
+#
   def capitalize_title
     # self.title = title.capitalize! if title.present?
     self.title = title.titleize if title.present?
   end
-
+#
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#

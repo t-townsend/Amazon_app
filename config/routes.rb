@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   get('/contact', { to: 'contact#index' })
   post('/contact', { to: 'contact#create', as: 'contact_submit' })
 
+  resources :products do
+  resources :reviews, only: [:create, :destroy]
+end
+
   root 'welcome#index'
 
 end
