@@ -22,7 +22,7 @@
     <%= link_to 'Product', products_path %>
     |
     <% if user_signed_in? %>
-    <span>Hello <%= current_user.first_name%>,</span>
+    <span>Hello <%= current_user.first_name%></span>
     <%= link_to 'Logout', sessions_path, method: :delete, data: {confirm: 'Logout??'} %>
     |
     <% else %>
