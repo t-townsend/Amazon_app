@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get('/about', { to: 'about#index' })
   get('/contact', { to: 'contact#index' })
+  get('/dashboard', {to: 'admin/dashboard#index'})
   post('/contact', { to: 'contact#create', as: 'contact_submit' })
 
   resources :products do
@@ -11,10 +12,14 @@ end
 
   resources :users, only: [:new, :create]
 
+  resources :dashboard
+
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection
 
   end
+
+  
 
   root 'welcome#index'
 
