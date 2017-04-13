@@ -18,9 +18,8 @@ end
               password: '12345678',
               password_confirmation: '12345678'
   )
-  puts "Product created!"
 end
-puts Cowsay.say 'Created 100 user', :beavis
+puts Cowsay.say 'Created 50 users', :ghostbusters
 
 
 # Create Products
@@ -34,7 +33,6 @@ puts Cowsay.say 'Created 100 user', :beavis
                      category_id: category.id,
                      user_id: user.id
   )
-  puts "Product created!"
 end
 
 puts Cowsay.say 'Created 100 products', :dragon
