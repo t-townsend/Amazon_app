@@ -19,4 +19,9 @@ end
 def self.is_not(name)
   where('first_name != ? AND last_name != ?', "#{name}", "#{name}")
 end
+
+def full_name
+  "#{first_name} #{last_name}".titleize
+end
+
 end
