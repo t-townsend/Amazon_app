@@ -12,6 +12,7 @@ before_action :find_product, only: [:show, :edit, :updat, :destroy]
   @product.user = current_user
 
   if @product.save
+    ProductsMailer.notify_product_owner(@product).deliver_now
     redirect_to product_path(@product), notice: 'Product Created!'
   else
     render :new
@@ -21,6 +22,7 @@ before_action :find_product, only: [:show, :edit, :updat, :destroy]
 
   def index
     @products = Product.last(20)
+
   end
 
   def show

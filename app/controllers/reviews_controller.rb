@@ -9,6 +9,7 @@ before_action :authenticate_user!, only: [:create, :destroy]
   @review.user = current_user
 
     if @review.save
+      ReviewsMailer.notify_prod_review_owner(@review).deliver_now
       redirect_to product_path(@product), notice: 'Review created!'
     else
       render 'products/show'

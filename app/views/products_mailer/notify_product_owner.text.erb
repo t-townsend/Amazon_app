@@ -1,0 +1,10 @@
+Hello <%= @user.first_name %>,
+You created a product!<
+Product title: <%= @product.title %>
+Product description: <%= @product.description %>
+Product price: <%= @product.price %></p>
+Product category: <%= @category.name %>
+Product link: <%= link_to @product.title, product_url(@product) %>
+
+Regards,
+Amazon Team

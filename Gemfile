@@ -33,7 +33,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'cancancan', '~> 1.10'
 
-
+gem 'letter_opener'
 gem 'bootstrap_form'
 
 # Use Capistrano for deployment
