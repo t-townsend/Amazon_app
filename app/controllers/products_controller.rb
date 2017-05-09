@@ -8,7 +8,7 @@ before_action :find_product, only: [:show, :edit, :updat, :destroy]
   end
 
   def create
-  @product = Product.new(params.require(:product).permit(:title, :description, :price, :category_id))
+  @product = Product.new(product_params)
   @product.user = current_user
 
   if @product.save
@@ -36,11 +36,11 @@ before_action :find_product, only: [:show, :edit, :updat, :destroy]
 
   def update
     @product = Product.find(params[:id])
-    product_parms = params.require(:product).permit([:title, :description, :price, :category_id])
 
       if !(can? :edit, @product)
       redirect_to root_path, alert: 'access denied' unless can? :edit, @product
-    elsif @product.update(product_params)
+
+    elsif @product.update(product_params.merge({ slug: nil }))
       redirect_to product_path(@product), notice: 'Product updated'
       else
       render :edit
@@ -70,5 +70,8 @@ before_action :find_product, only: [:show, :edit, :updat, :destroy]
     @review = Review.new
   end
 
+  def product_params
+    params.require(:product).permit([:title, :description, :price, :category_id, {tag_ids: []}])
+  end
 
 end

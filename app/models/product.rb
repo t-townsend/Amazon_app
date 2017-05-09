@@ -1,4 +1,9 @@
 class Product < ApplicationRecord
+
+
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
+
   belongs_to :category
 
   belongs_to :user
@@ -18,9 +23,15 @@ class Product < ApplicationRecord
   after_initialize :set_defaults
   before_save :capitalize_title
 
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :finders, :history]
+
   def self.search(string)
     where(['title ILIKE ? OR description ILIKE ?', "%#{string}%", "%#{string}%"]).order(['description ILIKE ?', "%#{string}%"], ['title ILIKE ?', "%#{string}%"])
   end
+
+
+
 
   private
 

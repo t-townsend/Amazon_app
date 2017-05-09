@@ -21,7 +21,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
+gem 'chosen-rails'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -32,9 +32,15 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'cancancan', '~> 1.10'
+gem 'rack-cors'
+
 
 gem 'letter_opener'
 gem 'bootstrap_form'
+gem "font-awesome-rails"
+gem 'friendly_id'
+gem 'carrierwave'
+
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

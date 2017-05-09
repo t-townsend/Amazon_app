@@ -1,28 +1,2 @@
 <h1>New Products</h1>
-<%# <%= console %> 
-<%= form_for @product do |f| %>
-  <div>
-    <%= f.label :title %>
-    <%= f.text_field :title, { class: 'form-control'} %>
-  </div>
-  <br>
-  <div>
-    <%= f.label :description %>
-    <%= f.text_area :description, { class: 'form-control'} %>
-  </div>
-  <br>
-  <div>
-    <%= f.label :price %>
-    <%= f.text_area :price, { class: 'form-control'} %>
-  </div>
-<br>
-  <div>
-      <%= f.label :category_id %>
-     <%= f.collection_select :category_id, Category.all, :id, :name%>
-  </div>
-<br>
-
-  <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
- Create Product
-<% end %>
-<% end %>
+<%= render 'form' %>

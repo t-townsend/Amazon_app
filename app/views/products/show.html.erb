@@ -2,7 +2,27 @@
 <p><%= @product.description %></p>
 <p><%= @product.price %></p>
 <p><%= @product.user.first_name %></p>
+<p>Tags: <%= @product.tags.pluck(:name).join(', ') %>
 
+<% if false %>
+<% user_vote = @product.votes.find_by_user_id current_user.id  %>
+<div class="vote-section">
+  <% if user_vote.nil?  %>
+    <%= link_to fa_icon('thumbs-o-up'), review_votes_path(@product, { is_up: true }) %>
+    <%= link_to fa_icon('thumbs-o-down'), vote_path(@product, { is_up: false }), method: :post %>
+    <% elsif user_vote.is_up?%>
+    <%= link_to fa_icon('thumbs-up'), review_votes_path(@product, user_vote), method: :delete %>
+    <%= link_to fa_icon('thumbs-o-down'), vote_path(@product, user_vote, { is_up: false }), method: :patch %>
+    <% else%>
+    <%= link_to fa_icon('thumbs-o-up'), vote_path(@product, user_vote, { is_up: true }), method: :patch %>
+    <%= link_to fa_icon('thumbs-o-down'), vote_path(@product,user_vote), method: :delete %>
+    <% end %>
+(
+<%= @product.votes_count %>
+)
+
+</div>
+<% end %>
 
 <% if can? :edit, @product %>
 <%= link_to 'Edit', edit_product_path(@product) %>
@@ -18,6 +38,8 @@
 
 
       <%= @review.errors.full_messages.join(', ') %>
+      <hr>
+
       <%= form_for [@product, @review] do |f| %>
       <div class="form-group">
        <%= f.label :rating %>
@@ -37,10 +59,21 @@
       <h1>Reviews</h1>
       <% @product.reviews.each do |r| %>
       <div class="well">
+        <% like = r.likes.find_by(user: current_user) %>
+
+        <% if user_signed_in? && can?(:like, r) %>
+          <% if r.like_by?(current_user) %>
+            <%= link_to "Unlike", like_path(like), method: :delete %>
+            <%else%>
+            <%= link_to "Like", review_likes_path(r, like), method: :post %>
+        <% end %>
+     <% end %>
+     <span>( <%= r.likes.count %> )</span>
+
        <p>Rating: <%= r.rating %></p>
        <p><%= r.user.first_name %></p>
        <p>Comments: <%= r.body %></p>
-       <%= link_to 'Delete Answer', [@product, r],
+       <%= link_to 'Delete Review', review_path(r),
               method: :delete, data: { confirm: 'Are you sure?' } %>
     </div>
     <% end %>

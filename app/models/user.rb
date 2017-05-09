@@ -1,8 +1,14 @@
 class User < ApplicationRecord
-has_secure_password
+before_create :generate_api_token
 
+has_secure_password
+has_many :likes, dependent: :destroy
+has_many :liked_reviews, through: :likes, source: :post
 has_many :products
 has_many :reviews
+
+has_many :votes, dependent: :destroy
+has_many :voted_products, through: :votes, source: :product
 
 validates(:first_name, { presence: true })
 validates(:last_name, { presence: true })
@@ -22,6 +28,13 @@ end
 
 def full_name
   "#{first_name} #{last_name}".titleize
+end
+
+def generate_api_token
+  loop do
+    self.api_token = SecureRandom.urlsafe_base64(32)
+    break unless User.exists?(api_token: self.api_token)
+  end
 end
 
 end

@@ -3,10 +3,17 @@ class Ability
 
   def initialize(user)
     user ||= User.new
-    
+
     if user.is_admin?
       can :manage, :all
     end
+
+    can :like, Review do |q|
+    user != q.user
+    end
+    cannot :like, Review do |q|
+    user == q.user
+  end
 
     can [:edit, :destroy], Product do |product|
     product.user == user

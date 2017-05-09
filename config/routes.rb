@@ -6,11 +6,24 @@ Rails.application.routes.draw do
   get('/dashboard', {to: 'admin/dashboard#index'})
   post('/contact', { to: 'contact#create', as: 'contact_submit' })
 
-  resources :products do
-  resources :reviews, only: [:create, :destroy]
+  resources :products, shallow: true do
+  resources :reviews, only: [:create, :update, :destroy] do
+  resources :likes, only: [:create, :destroy]
+  resources :votes, only: [:create, :update, :destroy]
+  end
 end
 
-  resources :users, only: [:new, :create]
+namespace :api, defaults: {format: :json} do
+  namespace :v1 do
+    resources :products, only: [:index, :show, :create] do
+    resources :reviews
+    end
+  end
+end
+
+  resources :users, only: [:new, :create] do
+    resources :reviews, only: [:index]
+  end
 
   resources :dashboard
 
@@ -19,7 +32,6 @@ end
 
   end
 
-  
 
   root 'welcome#index'
 
