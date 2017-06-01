@@ -1,25 +1,35 @@
-# README
+# Amazon Express
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is an app made in Ruby on Rails, and is meant to mimic an online
+product website, such as Amazon. It allows the user to make a new product,
+edit the product or delete it, and create reviews for the product. It also includes
+an index and show page for each product. This project includes user authentication,
+and the user, therefore, cannot add a post or review a post without being
+signed in.
 
-Things you may want to cover:
+**Technologies Used: Ruby on Rails, CSS, HTML, Bootstrap, Postgres, SQL**
 
-* Ruby version
+### Home Page ###
 
-* System dependencies
+![Alt text](/image1.png)
+***
 
-* Configuration
+### Create Product ###
 
-* Database creation
+![Alt text](/image2.png)
+***
 
-* Database initialization
+### Products Index Page ###
 
-* How to run the test suite
+![Alt text](/image3.png)
+***
 
-* Services (job queues, cache servers, search engines, etc.)
+### Product Show Page ###
 
-* Deployment instructions
+![Alt text](/image4.png)
+***
 
-* ...
-# Amazon_practice_app
+### Login Page ###
+
+![Alt text](/image5.png)
+***

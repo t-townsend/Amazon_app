@@ -8,11 +8,15 @@ before_action :authenticate_user!, only: [:create, :destroy]
   @review.product = @product
   @review.user = current_user
 
+  respond_to do |format|
     if @review.save
       ReviewsMailer.notify_prod_review_owner(@review).deliver_now
-      redirect_to product_path(@product), notice: 'Review created!'
-    else
-      render 'products/show'
+     format.html { redirect_to product_path(@product), notice: "Answer created successfully!" }
+     format.js { render :create_success }
+   else
+     format.html { render "products/show" }
+     format.js   { render :create_failure }
+      end
     end
   end
 
@@ -20,6 +24,9 @@ before_action :authenticate_user!, only: [:create, :destroy]
     @product = Product.find params[:product_id]
     @review = Review.find params[:id]
     @review.destroy
-    redirect_to product_path(@product), notice: 'Review Deleted'
+    respond_to do |format|
+      format.html { redirect_to question_path(@answer.question), notice: "Answer deleted" }
+      format.js   { render } # this renders /app/views/answers/destroy.js.erb
+    end
   end
 end

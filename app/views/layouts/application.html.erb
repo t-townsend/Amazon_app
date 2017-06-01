@@ -32,6 +32,7 @@
     |
     <% end %>
     <hr>
+    <div class='container'>
     <% if flash[:notice] %>
         <div class="alert alert-success"><%= flash[:notice] %></div>
       <% elsif flash[:alert] %>
@@ -40,6 +41,7 @@
 
     <hr>
     <%= yield %>
+  </div>
   </div>
   </body>
 </html>

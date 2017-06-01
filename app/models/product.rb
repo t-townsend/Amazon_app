@@ -26,6 +26,8 @@ class Product < ApplicationRecord
   extend FriendlyId
   friendly_id :title, use: [:slugged, :finders, :history]
 
+  mount_uploader :image, ImageUploader
+  
   def self.search(string)
     where(['title ILIKE ? OR description ILIKE ?', "%#{string}%", "%#{string}%"]).order(['description ILIKE ?', "%#{string}%"], ['title ILIKE ?', "%#{string}%"])
   end
