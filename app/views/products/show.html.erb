@@ -1,27 +1,153 @@
-<h1><%= @product.title %></h1>
-<%= image_tag @product.image.url(:large) if @product.image.present? %>
+<h1><%= @product.title %> - $<%= sprintf('%.2f', @product.price) %></h1>
+<p><%= image_tag @product.image.url(:large) if @product.image.present? %></p>
 <p><%= @product.description %></p>
-<p><%= @product.price %></p>
 <p><%= @product.user.first_name %></p>
-<p>Tags: <%= @product.tags.pluck(:name).join(', ') %>
+<p><strong>Category: </strong><%= @product.category&.name %></p>
+<p><strong>Tags: </strong>
+  <% @tags.each do |tag| %>
+    <%= link_to tag.name, tag_path(tag.id) %>
+  <% end %>
+</p>
+<p>
+  <% if @product.file.present? %>
+    <% if ['.jpg', '.jpeg', '.png', '.gif'].any? { |ext| @product.file.url.include? ext } %>
+      <%= image_tag @product.file.url(:large) %>
+    <% else %>
+      <%= link_to @product.file.url do %>
+        <%= image_tag('file.png', height: '50px') %>
+      <% end %>
+    <% end %>
+  <% end %>
+</p>
+
+<p>
+  <% if user_signed_in? && can?(:favourite, @product) %>
+    <% if @product.favourited_by?(current_user) %>
+      <%= link_to(
+        fa_icon('star'),
+        favourite_path(@product.favourite_for(current_user)),
+        method: :delete
+      ) %>
+    <% else %>
+      <%= link_to fa_icon('star-o'), product_favourites_path(@product), method: :post %>
+    <% end %>
+  <% end %>
+  <span><%= pluralize(@product.favourites.count, 'favourite') %></span>
+</p>
 
 <% if can? :edit, @product %>
-<%= link_to 'Edit', edit_product_path(@product) %>
+  <%= link_to 'Edit', edit_product_path(@product) %>
 <% end %>
+
 <% if can? :destroy, @product %>
-<%= link_to 'Delete', product_path(@product),
-                      method: :delete,
-                      data:{confirm: 'Are you sure?'} %>
-                      <% end %>
+  <%= link_to 'Delete', product_path(@product),
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' } %>
+<% end %>
+
+<h2>Reviews</h2>
+
+<%= @review.errors.full_messages.join(', ') %>
+<%= form_for [@product, @review] do |f| %>
+  <%= f.text_area :body %>
+  <%= f.number_field :rating, in: 1..5 %>
+  <%= f.submit %>
+<% end %>
+
+<hr>
+
+<% @reviews.each do |review| %>
+  <% if (can? :edit, @product) && review.is_hidden? %>
+    <div class="well" style="background-color: darkgrey">
+      <p><%= review.body %></p>
+      <p><%= review.user.first_name %></p>
+      <p><strong>Rating: </strong><%= review.rating %></p>
+
+      <p>
+        <% if user_signed_in? && can?(:like, review) %>
+          <% if review.liked_by?(current_user) %>
+            <%= link_to(
+              fa_icon('heart'),
+              like_path(review.like_for(current_user)),
+              method: :delete
+            ) %>
+          <% else %>
+            <%= link_to fa_icon('heart-o'), review_likes_path(review), method: :post %>
+          <% end %>
+        <% end %>
+        <span><%= pluralize(review.likes.count, 'like') %></span>
+      </p>
+
+      <% if can? :edit, @product %>
+        <%= link_to 'Show', review_path(review), method: :patch %>
+      <% end %>
+      <% if can? :destroy, review %>
+        <%= link_to(
+        'Delete',
+        review_path(review),
+        method: :delete,
+        data: { confirm: 'Are you sure?' }
+        ) %>
+      <% end %>
+    </div>
+  <% elsif !(can? :edit, @product) && review.is_hidden? %>
+
+  <% else %>
+    <div class="well">
+      <p><%= review.body %></p>
+      <p><%= review.user.first_name %></p>
+      <p><strong>Rating: </strong><%= review.rating %></p>
+      <p>
+        <% user_vote = review.votes.find_by_user_id current_user %>
+
+        <% if current_user != review.user %>
+          <% if user_vote.nil? %>
+            <%= link_to 'Vote Up', review_votes_path(review, is_up: true),
+                  method: :post %>
+            <%= link_to 'Vote Down', review_votes_path(review, is_up: false),
+                  method: :post %>
+          <% elsif user_vote.is_up? %>
+            <%= link_to 'Delete Vote', vote_path(user_vote), method: :delete %>
+            <%= link_to 'Vote Down', vote_path(user_vote, is_up: false),
+                  method: :patch %>
+          <% else %>
+            <%= link_to 'Vote Up', vote_path(user_vote, is_up: true),
+                  method: :patch %>
+            <%= link_to 'Delete Vote', vote_path(user_vote), method: :delete %>
+          <% end %>
+        <% else %>
+          Votes:
+        <% end %>
+        <span>( <%= review.votes_count %> )</span>
+      </p>
+
+      <p>
+        <% if user_signed_in? && can?(:like, review) %>
+          <% if review.liked_by?(current_user) %>
+            <%= link_to(
+              fa_icon('heart'),
+              like_path(review.like_for(current_user)),
+              method: :delete
+            ) %>
+          <% else %>
+            <%= link_to fa_icon('heart-o'), review_likes_path(review), method: :post %>
+          <% end %>
+        <% end %>
+        <span><%= pluralize(review.likes.count, 'like') %></span>
+      </p>
 
 
-        <h2>Reviews</h2>
-        <div id="review-form">
-          <%= render "/reviews/form" %>
-      </div>
-      <hr>
-      <h1>Reviews</h1>
-
-      <% @product.reviews.each do |r| %>
-       <%= render "/reviews/review", review: r %>
-    <% end %>
+      <% if can? :edit, @product %>
+        <%= link_to 'Hide', review_path(review), method: :patch %>
+      <% end %>
+      <% if can? :destroy, review %>
+        <%= link_to(
+        'Delete',
+        review_path(review),
+        method: :delete,
+        data: { confirm: 'Are you sure?' }
+        ) %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

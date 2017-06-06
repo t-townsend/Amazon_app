@@ -1,9 +1,7 @@
 class ProductsMailer < ApplicationMailer
-
-  def notify_product_owner(product)
+  def new_product_confirmation(product)
     @product = product
-    @category = product.category
     @user = @product.user
-    mail(to: @user.email, subject: 'You created a product!')if @user
+    mail(to: @user.email, subject: "You've created a new product!") if @user
   end
 end

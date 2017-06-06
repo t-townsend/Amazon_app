@@ -1,16 +1,20 @@
 class Api::V1::ReviewsController < Api::BaseController
-
   def create
-    @product = Product.find params[:product_id]
-    review_params = params.require(:review).permit(:body, :rating)
-    review = Review.new review_params
+    @product = Product.find(params[:product_id])
+    @review = Review.new review_params
     @review.product = @product
-    @review.user = User.find_by_api_token params[:api_token]
+    @review.user = @user
 
-    if review.save
-      render json: @product
+    if @review.save
+      render json: "Review created!"
     else
-      render json: @product
+      render json: @review.errors.full_messages
     end
   end
+
+  private
+
+    def review_params
+      params.require(:review).permit([ :body, :rating ])
+    end
 end

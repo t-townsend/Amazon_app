@@ -1,6 +1,0 @@
-<%= @review.errors.full_messages.join(", ") %>
-<%= simple_form_for [@product, @review], remote: true do |f| %>
-    <%= f.input :body %>
-    <%= f.input :rating %>
-  <%= f.submit class: 'btn btn-primary'%>
-<% end %>

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :review do
-    rating 5
-    body "hello"
+    body "This product is amazing"
+    rating 4
   end
 end

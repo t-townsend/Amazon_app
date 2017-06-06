@@ -1,0 +1,11 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+.has-error {
+  .form-control {
+    border-color: lighten($brand-danger, 30);
+  }
+  .form-control:focus {
+    border-color: lighten($brand-danger, 10);
+  }
+}

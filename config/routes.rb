@@ -3,35 +3,40 @@ Rails.application.routes.draw do
 
   get('/about', { to: 'about#index' })
   get('/contact', { to: 'contact#index' })
-  get('/dashboard', {to: 'admin/dashboard#index'})
   post('/contact', { to: 'contact#create', as: 'contact_submit' })
 
-  resources :products, shallow: true do
-  resources :reviews, only: [:create, :update, :destroy] do
-  resources :likes, only: [:create, :destroy]
-  resources :votes, only: [:create, :update, :destroy]
-  end
-end
-
-namespace :api, defaults: {format: :json} do
-  namespace :v1 do
-    resources :products, only: [:index, :show, :create] do
-    resources :reviews
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :products, only: [:index, :show, :create] do
+        resources :reviews, only: [:create]
+      end
+      resources :sessions, only: [:new, :create] do
+        delete :destroy, on: :collection
+      end
     end
   end
-end
 
-  resources :users, only: [:new, :create] do
-    resources :reviews, only: [:index]
+  resources :products, shallow: true do
+    resources :reviews, only: [:create, :update, :destroy] do
+      resources :likes, only: [:create, :destroy]
+      resources :votes, only: [:create, :update, :destroy]
+    end
+    resources :favourites, only: [:create, :destroy]
   end
 
-  resources :dashboard
+  resources :users, only: [:new, :create] do
+    resources :favourites, only: [:index]
+  end
 
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection
-
   end
 
+  resources :tags, only: [:index, :show]
+
+  namespace :admin do
+    resources :dashboard, only: [:index]
+  end
 
   root 'welcome#index'
 

@@ -1,0 +1,13 @@
+<h1>Hello <%= @user.first_name %>,</h1>
+
+<p>Your product has been reviewed!</p>
+
+<p>Review: <%= @review.body %>
+<br>Rating: <%= @review.rating %>
+<br>Author: <%= @review.user.first_name %></p>
+
+<p><%= link_to 'Click here to see the review', product_url(@product) %></p>
+
+<p>Regards,</p>
+
+<p>Amazon Team</p>

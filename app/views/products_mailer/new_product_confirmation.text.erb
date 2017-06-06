@@ -1,0 +1,14 @@
+Hello <%= @user.first_name %>,
+
+Thank you for creating a new product on Amazon!
+
+Product title: <%= @product.title %>
+Product description: <%= @product.description %>
+Price: $<%= sprintf('%.2f', @product.price) %>
+Sale price: $<%= sprintf('%.2f', @product.sale_price) %>
+
+<%= link_to 'Click here to view product', product_url(@product) %>
+
+Regards,
+
+Amazon Team

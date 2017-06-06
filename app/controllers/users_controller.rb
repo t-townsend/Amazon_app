@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  
   def new
     @user = User.new
   end
@@ -9,13 +8,13 @@ class UsersController < ApplicationController
 
     if @user.save
       session[:user_id] = @user.id
-      flash[:notice] = "User Created!"
+      flash[:notice] = "User created! and Signed in"
       redirect_to products_path
     else
       flash[:alert] = "Something went wrong!"
       render :new
+    end
   end
-end
 
   private
 

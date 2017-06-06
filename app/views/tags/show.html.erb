@@ -1,0 +1,7 @@
+<h1><%= @tag.name %></h1>
+
+<% @taggings.each do |tagging| %>
+  <h3><%= link_to tagging.product.title, product_path(tagging) %></h3>
+  <p><%= tagging.product.user.first_name %></p>
+  <hr>
+<% end %>
