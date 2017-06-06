@@ -9,27 +9,9 @@ signed in.
 
 **Technologies Used: Ruby on Rails, CSS, HTML, Bootstrap, Postgres, SQL**
 
-### Home Page ###
-
-![Alt text](/image1.png)
-***
-
-### Create Product ###
-
-![Alt text](/image2.png)
-***
-
-### Products Index Page ###
-
-![Alt text](/image3.png)
-***
+###This is being updated, and will be completed by June 7, 2017###
 
 ### Product Show Page ###
 
-![Alt text](/image4.png)
-***
-
-### Login Page ###
-
-![Alt text](/image5.png)
+![Alt text](/image1.png)
 ***
