@@ -9,7 +9,7 @@ signed in.
 
 **Technologies Used: Ruby on Rails, CSS, HTML, Bootstrap, Postgres, SQL**
 
-###This is being updated, and will be completed by June 7, 2017###
+###This is a work in progress. CSS update to be finished soon###
 
 ### Product Show Page ###
 
